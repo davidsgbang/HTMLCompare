@@ -13,11 +13,23 @@
 				frameTwo.attr({src : 'Examples/'+form.fileTwo.value});
 				
 				setTimeout(function() {
-					alert(frameOne.contents().find('p').text());
-					alert(frameTwo.contents().find('h1').text());
-				}, 100);
-			
+				//	alert(frameOne.contents().find("body"));
+				//	alert(frameTwo.contents().find("body"));
+					traverseDOM(frameOne.contents().find("body").get(0));
+				//	traverseDOM(frameOne.contents().find("body"));
+				}, 1000);
 				
+			}
+
+			function traverseDOM(element) {
+				var element = element;
+				var elementPosition = element.getBoundingClientRect();
+				alert(elementPosition.left + ", " + elementPosition.top);
+				alert(element.innerHTML);
+				var childrenList = element.children;
+				for (var i = 0; i < childrenList.length; i++) {
+					traverseDOM(childrenList[i]);
+				}
 			}
 
 
