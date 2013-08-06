@@ -5,17 +5,21 @@
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
 		<script>
 
-			var frameOneArray = new Array();
-			var frameTwoArray = new Array();
+			var frameOneHash = {};
+			var frameTwoHash = {};
+			var frameOneProcessed = false;
 
 			function DOMelement (element) {
 
+				this.originalElement = element;
 				this.tagName = element.tagName;
 				this.content = element.innerHTML;
+				this.value = element.textContent.replace(/\n|\t/gm, "");
 				this.posLeft = element.offsetLeft;
 				this.posTop = element.offsetTop;
 				this.children = element.children;
 				this.parent = element.parentNode;
+				this.attributes = element.attributes;
 
 			}
 
@@ -24,40 +28,89 @@
 				var frameOne = $("#frameOne");
 				frameOne.attr({src : 'Examples/'+form.fileOne.value});
 			
-			//	var frameTwo = $("#frameTwo");
-			//	frameTwo.attr({src : 'Examples/'+form.fileTwo.value});
+				var frameTwo = $("#frameTwo");
+				frameTwo.attr({src : 'Examples/'+form.fileTwo.value});
 				
 				setTimeout(function() {
-				//	alert(frameOne.contents().find("body"));
-				//	alert(frameTwo.contents().find("body"));
 					traverseDOM(frameOne.contents().find("body").get(0));
-				//	traverseDOM(frameTwo.contents().find("body").get(0));
+					frameOneProcessed = true;
+					traverseDOM(frameTwo.contents().find("body").get(0));
+
+					frameOne.attr({src : 'Examples/'+form.fileOne.value});
+					frameTwo.attr({src : 'Examples/'+form.fileTwo.value});
 
 
-					for (var i = 0; i < frameOneArray.length; i++) {
-						var str = ""
-						str += frameOneArray[i].tagName + "\n\n";
-						str += frameOneArray[i].content + "\n\n";
-						str += frameOneArray[i].posLeft + ", " + frameOneArray[i].posTop + "\n\n";
-						alert(str);
-					}	
-				}, 1000);
-				
+					compareHashes();
+
+
+
+				}, 100);
+
+
 			
 			}
 
 			function traverseDOM(paramElement) {
-				var element = new DOMelement(paramElement);
-			//	alert(element.posLeft + ", " + element.posTop);
-			//	alert(element.tagName + "\n" + element.content + "/" + element.tagName);
-			
-				frameOneArray.push(element);
-
-				var childrenList = element.children;
-				for (var i = 0; i < childrenList.length; i++) {
+				
+				// First, go through all the children, look at all the element, 
+				// then recursively call traverseDOM on each child
+				// lastly, remove the child, so we can get the inner text without children's text appearing
+				var childrenList = paramElement.children;
+				for (var i = childrenList.length-1; i >= 0; i--) {
 					traverseDOM(childrenList[i]);
+					paramElement.removeChild(childrenList[i]);
 				}
+
+				// then make the DOM object.
+				var element = new DOMelement(paramElement);
+
+				// if we find an ID, then assign the key in the hash to be an ID
+				// else, use [tagName]_[left]_[top] format key
+				if ((id = element.attributes.getNamedItem("id")) != null) {
+					if (frameOneProcessed) {
+					//	frameTwoHash[id.nodeValue] = element.value.replace(/\n|\t/gm, "");
+						frameTwoHash[id.nodeValue] = element;
+					} else {
+						frameOneHash[id.nodeValue] = element;	
+					}
+					
+				} else {
+					hashIndex = element.tagName + "_" + element.posLeft + "_" + element.posTop;
+					if (frameOneProcessed) {
+					//	frameTwoHash[hashIndex] = element.value.replace(/\n|\t/gm, "");
+						frameTwoHash[hashIndex] = element;
+					} else {
+						frameOneHash[hashIndex] = element;
+					}
+					
+
+					
+				}
+
+				
 			}
+
+			function compareHashes() {
+
+				for (var hashOneIndex = 0; hashOneIndex < Object.keys(frameOneHash).length; hashOneIndex++) {
+					var keyToCompare = Object.keys(frameOneHash)[hashOneIndex];
+					if (frameTwoHash[keyToCompare] != null) {
+						compareDOMelements(frameOneHash[keyToCompare], frameTwoHash[keyToCompare]);
+					} else {
+						for (var hashTwoIndex = 0; hashTwoIndex < Object.keys(frameTwoHash).length; hashTwoIndex++) {
+							compareDOMelements(frameOneHash[keyToCompare], frameTwoHash[Object.keys(frameTwoHash)[hashTwoIndex]]);
+						}
+					}
+
+				}
+
+			}
+
+			function compareDOMelements(element1, element2) {
+				alert(element1.tagName + " -> " + element1.value + " != " + element2.tagName + " -> " +element2.value);
+			}
+
+
 
 
 		</script>
