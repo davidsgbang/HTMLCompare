@@ -61,33 +61,51 @@
 					paramElement.removeChild(childrenList[i]);
 				}
 
-				// then make the DOM object.
-				var element = new DOMelement(paramElement);
+				// then make the DOM object ONLY if this DOM element has a text content
+				if (paramElement.textContent.replace(/\n|\t/gm, "") != "") {
+					
+					var element = new DOMelement(paramElement);
 
-				// if we find an ID, then assign the key in the hash to be an ID
-				// else, use [tagName]_[left]_[top] format key
-				if ((id = element.attributes.getNamedItem("id")) != null) {
-					if (frameOneProcessed) {
-					//	frameTwoHash[id.nodeValue] = element.value.replace(/\n|\t/gm, "");
-						frameTwoHash[id.nodeValue] = element;
+					// if we find an ID, then assign the key in the hash to be an ID
+					// else, use [tagName]_[left]_[top] format key
+					if ((id = element.attributes.getNamedItem("id")) != null) {
+						if (frameOneProcessed) {
+						//	frameTwoHash[id.nodeValue] = element.value.replace(/\n|\t/gm, "");
+							frameTwoHash[id.nodeValue] = element;
+						} else {
+							frameOneHash[id.nodeValue] = element;	
+						}
+						
 					} else {
-						frameOneHash[id.nodeValue] = element;	
-					}
-					
-				} else {
-					hashIndex = element.tagName + "_" + element.posLeft + "_" + element.posTop;
-					if (frameOneProcessed) {
-					//	frameTwoHash[hashIndex] = element.value.replace(/\n|\t/gm, "");
-						frameTwoHash[hashIndex] = element;
-					} else {
-						frameOneHash[hashIndex] = element;
-					}
-					
+						hashIndex = element.tagName + "_" + element.posLeft + "_" + element.posTop;
+						if (frameOneProcessed) {
+						//	frameTwoHash[hashIndex] = element.value.replace(/\n|\t/gm, "");
+							frameTwoHash[hashIndex] = element;
+						} else {
+							frameOneHash[hashIndex] = element;
+						}
+						
 
-					
+						
+					}
 				}
-
 				
+			}
+
+			/* from stackoverflow
+			by Blender
+			http://stackoverflow.com/a/16227231
+			*/
+
+			function intersection(array1, array2) {
+				var results = new Array();
+
+				for (var index = 0; index < array1.length; index++) {
+					if (array2.indexOf(array1[index]) !== -1) {
+						results.push(array1[index]);
+					}
+				}
+				return results;
 			}
 
 			function compareHashes() {
@@ -107,7 +125,11 @@
 			}
 
 			function compareDOMelements(element1, element2) {
-				alert(element1.tagName + " -> " + element1.value + " != " + element2.tagName + " -> " +element2.value);
+				var element1ValueArr = element1.value.split(" ");
+				var element2ValueArr = element2.value.split(" ");
+
+				var sameElements = intersection(element1ValueArr, element2ValueArr);
+				alert(sameElements);
 			}
 
 
