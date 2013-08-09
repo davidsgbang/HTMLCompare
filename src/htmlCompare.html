@@ -20,6 +20,10 @@
 				this.children = element.children;
 				this.parent = element.parentNode;
 				this.attributes = element.attributes;
+				this.style = element.style;
+				this.toString = element.tagName + " : " + this.posLeft + ", " + this.posTop;
+				this.width = element.style.width;
+				this.height = element.style.height;
 
 			}
 
@@ -44,7 +48,7 @@
 
 
 
-				}, 100);
+				}, 500);
 
 
 			
@@ -97,6 +101,7 @@
 			http://stackoverflow.com/a/16227231
 			*/
 
+
 			function intersection(array1, array2) {
 				var results = new Array();
 
@@ -105,7 +110,9 @@
 						results.push(array1[index]);
 					}
 				}
-				return results;
+				var avgArrayLength = (array1.length + array2.length) /2 ;
+
+				return ((results.length / avgArrayLength) * 100);
 			}
 
 			function compareHashes() {
@@ -115,7 +122,7 @@
 					if (frameTwoHash[keyToCompare] != null) {
 						compareDOMelements(frameOneHash[keyToCompare], frameTwoHash[keyToCompare]);
 					} else {
-						for (var hashTwoIndex = 0; hashTwoIndex < Object.keys(frameTwoHash).length; hashTwoIndex++) {
+						for (var hashTwoIndex = 0; hashTwoIndex < Object.keys(frameTwoHash).length; hashTwoIndex++) {					
 							compareDOMelements(frameOneHash[keyToCompare], frameTwoHash[Object.keys(frameTwoHash)[hashTwoIndex]]);
 						}
 					}
@@ -125,13 +132,29 @@
 			}
 
 			function compareDOMelements(element1, element2) {
-				var element1ValueArr = element1.value.split(" ");
-				var element2ValueArr = element2.value.split(" ");
+				// word based intersection. Normal "split" doesn't remove puncutations!
+				var element1ValueArr = element1.value.toLowerCase().replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(" ");
+				var element2ValueArr = element2.value.toLowerCase().replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(" ");
 
-				var sameElements = intersection(element1ValueArr, element2ValueArr);
-				alert(sameElements);
+				// compareContent == percentage for postion diff
+				var compareContent = intersection(element1ValueArr, element2ValueArr);
+				var diffWidth = Math.abs(element1.posLeft - element2.posLeft);
+				var diffHeight = Math.abs(element1.posTop - element2.posTop);
+
+				// compare the width and height differential by percentage based on the size of the entire body
+				var compareWidth = ((diffWidth / document.body.clientWidth) * 100);
+				var compareHeight = ((diffHeight / document.body.clientHeight) * 100);
+
+				compareDOMstyles(element1, element2);
+
 			}
 
+			function compareDOMstyles(element1, element2) {
+				var style2 = document.defaultView.getComputedStyle(element1.originalElement,null).getPropertyValue('color');
+				alert(element1.originalElement.innerHTML);
+				alert(style2);
+
+			}
 
 
 
