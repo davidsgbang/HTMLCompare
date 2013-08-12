@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"> 
+		<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+		<script>
+
+			var frameOneHash = {};
+			var frameTwoHash = {};
+			var frameOneProcessed = false;
+
+			$(document).ready(function() {
+				$("#content").load('Examples/example1.html', function () {
+					alert("load complete");
+				});
+			});
+
+			function checkSubmitForm(form) {
+
+				var frameOne = $("#frameOne");
+				frameOne.attr({src : 'Examples/'+form.fileOne.value});
+			
+				var frameTwo = $("#frameTwo");
+				frameTwo.attr({src : 'Examples/'+form.fileTwo.value});
+				
+
+				frameOne.load(function() {
+					traverseDOM(frameOne.contents().find("body"), frameOne.contents().find("body").get(0));
+				});
+/*
+				setTimeout(function() {
+					traverseDOM(frameOne.contents().find("body"), frameOne.contents().find("body").get(0));
+					frameOneProcessed = true;
+					traverseDOM(frameTwo.contents().find("body"), frameTwo.contents().find("body").get(0));
+				}, 500);
+*/
+
+			
+			}
+
+			// USE SELECTOR, $(this)!
+			function traverseDOM(jQueryElement, domElement) {
+				var getText = jQueryElement.clone();
+				getText.children().each(function(index, value) {
+					traverseDOM($(this), domElement.children[index]);
+				//	domElement.removeChild(domElement.children[index]);
+				});
+
+				alert(jQueryElement.prop("tagName") + " - " + domElement.offsetTop + " - " + jQueryElement.css("color"));
+
+			}
+
+
+			/* from stackoverflow
+			by Blender
+			http://stackoverflow.com/a/16227231
+			*/
+
+
+			function intersection(array1, array2) {
+				var results = new Array();
+
+				for (var index = 0; index < array1.length; index++) {
+					if (array2.indexOf(array1[index]) !== -1) {
+						results.push(array1[index]);
+					}
+				}
+				var avgArrayLength = (array1.length + array2.length) /2 ;
+
+				return ((results.length / avgArrayLength) * 100);
+			}
+
+
+		</script>
+	</head>
+	<body>
+
+		<iframe id="frameOne">
+		</iframe>
+
+		<iframe id="frameTwo">
+		</iframe>
+
+		<div id="content">
+
+		</div>
+
+		<form id="compareFileForm" onsubmit="checkSubmitForm(this); return false;">
+			<input name="fileOne" type="file" />
+			<input name="fileTwo" type="file" />
+			<input type="submit" />
+		</form>
+
+	</body>
+</html>
