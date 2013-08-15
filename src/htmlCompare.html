@@ -2,100 +2,64 @@
 <html>
 	<head>
 		<meta charset="UTF-8"> 
-		<script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+		<script src="jquery-1.10.2.min.js" type="text/javascript"></script>
+		<script src="traverseDOM.js" type="text/javascript"></script>
 		<script>
 
 			var frameOneHash = {};
 			var frameTwoHash = {};
 			var frameOneProcessed = false;
-
-			function DOMelement (element) {
-
-				this.originalElement = element;
-				this.tagName = element.tagName;
-				this.content = element.innerHTML;
-				this.value = element.textContent.replace(/\n|\t/gm, "");
-				this.posLeft = element.offsetLeft;
-				this.posTop = element.offsetTop;
-				this.children = element.children;
-				this.parent = element.parentNode;
-				this.attributes = element.attributes;
-				this.style = element.style;
-				this.toString = element.tagName + " : " + this.posLeft + ", " + this.posTop;
-				this.width = element.style.width;
-				this.height = element.style.height;
-
-			}
-
+			/*
+			$(document).ready(function() {
+				$("#content").load('Examples/example1.html', function () {
+					alert("load complete");
+				});
+			});
+			*/
 			function checkSubmitForm(form) {
+
+				var jQueryScript1 = document.createElement('script');
+				jQueryScript1.type = 'text/javascript';
+				jQueryScript1.src = '../jquery-1.10.2.min.js';
+
+				var traverseScript1 = document.createElement('script');
+				traverseScript1.type = 'text/javascript';
+				traverseScript1.src = '../traverseDOM.js';
+
+				var jQueryScript2 = document.createElement('script');
+				jQueryScript2.type = 'text/javascript';
+				jQueryScript2.src = '../jquery-1.10.2.min.js';
+
+				var traverseScript2 = document.createElement('script');
+				traverseScript2.type = 'text/javascript';
+				traverseScript2.src = '../traverseDOM.js';
 
 				var frameOne = $("#frameOne");
 				frameOne.attr({src : 'Examples/'+form.fileOne.value});
-			
+
 				var frameTwo = $("#frameTwo");
 				frameTwo.attr({src : 'Examples/'+form.fileTwo.value});
 				
+
+
+				frameOne.load(function() {
+					frameOne.contents().find("head").get(0).appendChild(jQueryScript1);
+					frameOne.contents().find("head").get(0).appendChild(traverseScript1);
+					setTimeout(function() {frameOneHash = frameOne.get(0).contentWindow.getDOMHash();}, 100);
+				});
+
+				frameTwo.load(function() {
+					frameTwo.contents().find("head").get(0).appendChild(jQueryScript2);
+					frameTwo.contents().find("head").get(0).appendChild(traverseScript2);
+					setTimeout(function() {frameTwoHash = frameTwo.get(0).contentWindow.getDOMHash();}, 100);
+				})
+
 				setTimeout(function() {
-					traverseDOM(frameOne.contents().find("body").get(0));
-					frameOneProcessed = true;
-					traverseDOM(frameTwo.contents().find("body").get(0));
-
-					frameOne.attr({src : 'Examples/'+form.fileOne.value});
-					frameTwo.attr({src : 'Examples/'+form.fileTwo.value});
-
-
-					compareHashes();
-
-
-
-				}, 500);
-
-
-			
+					alert(compareHashes(frameOneHash, frameTwoHash));
+				}, 5000);
 			}
 
-			function traverseDOM(paramElement) {
-				
-				// First, go through all the children, look at all the element, 
-				// then recursively call traverseDOM on each child
-				// lastly, remove the child, so we can get the inner text without children's text appearing
-				var childrenList = paramElement.children;
-				for (var i = childrenList.length-1; i >= 0; i--) {
-					traverseDOM(childrenList[i]);
-					paramElement.removeChild(childrenList[i]);
-				}
-
-				// then make the DOM object ONLY if this DOM element has a text content
-				if (paramElement.textContent.replace(/\n|\t/gm, "") != "") {
-					
-					var element = new DOMelement(paramElement);
-
-					// if we find an ID, then assign the key in the hash to be an ID
-					// else, use [tagName]_[left]_[top] format key
-					if ((id = element.attributes.getNamedItem("id")) != null) {
-						if (frameOneProcessed) {
-						//	frameTwoHash[id.nodeValue] = element.value.replace(/\n|\t/gm, "");
-							frameTwoHash[id.nodeValue] = element;
-						} else {
-							frameOneHash[id.nodeValue] = element;	
-						}
-						
-					} else {
-						hashIndex = element.tagName + "_" + element.posLeft + "_" + element.posTop;
-						if (frameOneProcessed) {
-						//	frameTwoHash[hashIndex] = element.value.replace(/\n|\t/gm, "");
-							frameTwoHash[hashIndex] = element;
-						} else {
-							frameOneHash[hashIndex] = element;
-						}
-						
-
-						
-					}
-				}
-				
-			}
-
+		
 			/* from stackoverflow
 			by Blender
 			http://stackoverflow.com/a/16227231
@@ -104,61 +68,125 @@
 
 			function intersection(array1, array2) {
 				var results = new Array();
-
+				if ((array1.length == 1 && array1[0]=="") || (array2.length == 1 && array2[0] == "")) {
+					return 0;
+				}
+				
 				for (var index = 0; index < array1.length; index++) {
 					if (array2.indexOf(array1[index]) !== -1) {
 						results.push(array1[index]);
 					}
 				}
-				var avgArrayLength = (array1.length + array2.length) /2 ;
-
+				var avgArrayLength = (array1.length > array2.length ? array1.length : array2.length);
 				return ((results.length / avgArrayLength) * 100);
 			}
 
-			function compareHashes() {
 
-				for (var hashOneIndex = 0; hashOneIndex < Object.keys(frameOneHash).length; hashOneIndex++) {
-					var keyToCompare = Object.keys(frameOneHash)[hashOneIndex];
-					if (frameTwoHash[keyToCompare] != null) {
-						compareDOMelements(frameOneHash[keyToCompare], frameTwoHash[keyToCompare]);
-					} else {
-						for (var hashTwoIndex = 0; hashTwoIndex < Object.keys(frameTwoHash).length; hashTwoIndex++) {					
-							compareDOMelements(frameOneHash[keyToCompare], frameTwoHash[Object.keys(frameTwoHash)[hashTwoIndex]]);
-						}
+			function compareHashes(frame1, frame2) {
+				var totalPercent = 0;
+				var frame1Length = Object.keys(frame1).length;
+				var frame2Length = Object.keys(frame2).length
+				var confidenceArray = new Array();
+				for (var hashOneIndex = 0; hashOneIndex < Object.keys(frame1).length; hashOneIndex++) {
+					var keyToCompare = Object.keys(frame1)[hashOneIndex];
+					var maxVal = 0;
+					for (var hashTwoIndex = 0; hashTwoIndex < Object.keys(frame2).length; hashTwoIndex++) {
+						var compValue = compareDOMElements(frame1[keyToCompare], frameTwoHash[Object.keys(frame2)[hashTwoIndex]]);
+						confidenceArray.push({confidence: compValue, index1: hashOneIndex, index2: hashTwoIndex});
+						maxVal = (compValue > maxVal ? compValue : maxVal);
 					}
+					totalPercent += (maxVal * 100);
+				}
+				return processConfidenceArray(confidenceArray, frame1Length, frame2Length);
 
+				//return totalPercent / (100 * (frame1Length > frame2Length ? frame1Length : frame2Length));
+			}
+
+			function processConfidenceArray(confidenceArray, array1Length, array2Length) {
+				var array1Processed = new Array(array1Length);
+				var array2Processed = new Array(array2Length);
+				var combinedConfidence = 0;
+				var finishedArrayLength;
+				confidenceArray.sort(function(element1, element2) {
+					return element2.confidence - element1.confidence;
+				});
+				for (var index = 0; index < confidenceArray.length; index++) {
+					if (array1Processed[confidenceArray[index].index1] == true || array2Processed[confidenceArray[index].index2] == true) {
+						continue;
+					}
+					combinedConfidence += confidenceArray[index].confidence;
+					array1Processed[confidenceArray[index].index1] = true;
+					array2Processed[confidenceArray[index].index2] = true;
+					console.log(confidenceArray[index]);
+					if (uniformValueArray(array1Processed) == true) {
+						finishedArrayLength = array2Processed.length;
+						break;
+					} else if (uniformValueArray(array2Processed) == true ){
+						finishedArrayLength = array1Processed.length;
+						break;
+					} else {}
+				}
+				return combinedConfidence / finishedArrayLength;
+			}
+
+			function uniformValueArray(array) {
+				for (var index = 1; index < array.length; index++) {
+					if (array[index] != array[index-1]) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+
+			function compareDOMElements(element1, element2) {
+				var element1TextArr = element1.jQuery.text().toLowerCase().replace(/[\n\t\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(" ");
+				var element2TextArr = element2.jQuery.text().toLowerCase().replace(/[\n\t\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(" ");
+				// How confident are we that the texts match up (higher the better);
+				var contentPercent = intersection(element1TextArr, element2TextArr);
+				// How confident are we that the positions match up? (lower the better)
+				var diffWidth = Math.abs(element1.left - element2.left);
+				var diffHeight = Math.abs(element1.top - element2.top);
+				var widthPercent = (diffWidth > 200 ? 0 : diffWidth/2);
+				var heightPercent = (diffHeight > 200 ? 0 : diffHeight/2);
+
+				// Content : Position : CSS ratio : tagName
+				//return contentPercent;
+				
+				if (contentPercent == 0) { 
+					return ((contentPercent * 1) + (((200 - widthPercent - heightPercent) / 2)*4)  + (compareDOMStyles(element1, element2) * .5) + (element1.tagName == element2.tagName ? 50 : 0)) / 6;
+				} else {
+					return ((contentPercent * 4) + (((200 - widthPercent - heightPercent) / 2)*4)  + (compareDOMStyles(element1, element2) * .5) + (element1.tagName == element2.tagName ? 50 : 0)) / 9;
+				}
+			}
+
+			function compareDOMStyles (element1, element2) {
+				var matchingNum = 0; 
+				
+				for (var index = 0; index < 18; index++) {
+					if (element1.cssElements[index] == element2.cssElements[index]) {
+						matchingNum++;
+					}
 				}
 
+				return (matchingNum / 18) * 100;
 			}
-
-			function compareDOMelements(element1, element2) {
-				// word based intersection. Normal "split" doesn't remove puncutations!
-				var element1ValueArr = element1.value.toLowerCase().replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(" ");
-				var element2ValueArr = element2.value.toLowerCase().replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"").split(" ");
-
-				// compareContent == percentage for postion diff
-				var compareContent = intersection(element1ValueArr, element2ValueArr);
-				var diffWidth = Math.abs(element1.posLeft - element2.posLeft);
-				var diffHeight = Math.abs(element1.posTop - element2.posTop);
-
-				// compare the width and height differential by percentage based on the size of the entire body
-				var compareWidth = ((diffWidth / document.body.clientWidth) * 100);
-				var compareHeight = ((diffHeight / document.body.clientHeight) * 100);
-
-				compareDOMstyles(element1, element2);
-
-			}
-
-			function compareDOMstyles(element1, element2) {
-				var style2 = document.defaultView.getComputedStyle(element1.originalElement,null).getPropertyValue('color');
-				alert(element1.originalElement.innerHTML);
-				alert(style2);
-
-			}
-
-
 
 		</script>
+		<style> 
+			#frameOne, #frameTwo {
+				width : 49%;
+				height : 800px;
+			}
+
+			#frameTwo {
+				float:right;
+			}
+
+			#compareFileForm {
+				text-align:center;
+			}
+		</style>
 	</head>
 	<body>
 
