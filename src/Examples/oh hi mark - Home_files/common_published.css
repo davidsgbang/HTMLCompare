@@ -1,0 +1,592 @@
+@import url(/vp/css/modal_dialog_skins.css);
+
+/*
+Common styles for all published customer sites
+*/
+p,ul,ol,blockquote
+{
+    margin-top:0;
+    margin-bottom:0;
+    overflow:visible;
+}
+
+ol
+{
+    padding-left:2em;
+}
+
+ul
+{
+    padding-left:1.5em;
+}
+
+li div
+{
+    display:inline;
+}
+
+body
+{
+    margin-left:0;
+    margin-right:0;
+    margin-top:0;
+    margin-bottom:0;
+    overflow:visible;
+}
+
+img
+{
+    border:0;
+}
+
+/* Used for all new footer text containers - 22.6 - JLK */
+.div-text-footer-container
+{
+    float: left;
+    text-align: center;
+    margin-top:5px;
+    font-size:11px;
+}
+
+/* Legacy - Pre 22.6 */
+.div-plain-text-menu
+{
+    float: left;
+    text-align: center;
+    color:#999999;
+    margin-top:5px;
+    font-size:11px;
+}
+
+/* Legacy - Pre 22.6 */
+#divLocalSeachFooter
+{
+    float: left;
+    text-align: center;
+    color:#999999;
+    margin-top:5px;
+    font-size:11px;
+}
+
+.fn{
+	display:inline;
+}
+.adr{
+	display:inline;
+}
+.tel{
+	display:inline;
+}
+.street-address{
+	display:inline;
+}
+
+#divVPBrandFooter
+{
+    margin: 8px 8px;
+    font-family: Arial,Helvetica,Sans-Serif;
+    font-size: 11px;
+    text-align: center;
+    margin-top: 36px;
+}
+
+#divVPBrandFooter a
+{
+    text-decoration: none;
+    color: #333;
+}
+
+/* Styles for new branded footer */
+
+#divVPBrandFooter .VPNewBrandFooter
+{    
+    margin-top: -30px; 
+    width: 100%;    
+}
+
+#divVPBrandFooter .VPNewBrandFooter table
+{    
+    height: 31px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD
+{
+    padding: 2px 5px 2px 5px;
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD a
+{
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD span
+{
+    vertical-align: middle;
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD img
+{
+    border: 0;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD.left-cap
+{
+    background-image: url(/vp/images/b09/site-builder/background/freemium-footer/left-cap.png);
+    background-position: left top;
+    background-repeat: no-repeat;
+    width: 5px;
+    padding: 0;    
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD.right-cap
+{
+    background-image: url(/vp/images/b09/site-builder/background/freemium-footer/right-cap.png);
+    background-position: left top;
+    background-repeat: no-repeat;
+    width: 5px;
+    overflow: hidden;
+    padding: 0;
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD.mid
+{
+    background-image: url(/vp/images/b09/site-builder/background/freemium-footer/center.png);
+    background-position: left top;
+    background-repeat: no-repeat;
+    width: 30px;
+    padding: 0;
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD.mid-left
+{
+    background-image: url(/vp/images/b09/site-builder/background/freemium-footer/left-stretch.png);
+    background-position: left top;
+    background-repeat: repeat-x;
+    text-align: left;
+}
+
+#divVPBrandFooter .VPNewBrandFooter TD.mid-right
+{
+    background-image: url(/vp/images/b09/site-builder/background/freemium-footer/right-stretch.png);
+    background-position: left top;
+    background-repeat: repeat-x;
+    text-align: right;
+}
+
+/* mapquest disclaimer etc */
+.legalese 
+{
+	font-size: xx-small;
+	color: #999999;
+}
+div.legalese
+{
+	width: 600px;
+	margin: 30px auto; 
+	text-align: center;
+}
+
+.legalese a 
+{
+	color: #999999;
+}
+.legalese a:visited 
+{
+	color: #999999;
+}
+
+.media-player-container
+{
+	border-collapse: collapse;
+}
+
+.media-player-song-title
+{
+	font-family: Arial;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.media-player-song-description
+{
+	font-family: Arial;
+	font-size: 11px;
+	font-weight: normal;
+}
+
+/* The main calendar widget.  DIV containing a table. */
+
+div.calendar { position: relative; z-index:100; }
+
+.calendar, .calendar table {
+  border: 1px solid #556;
+  font-size: 11px;
+  color: #000;
+  cursor: default;
+  background: #eef;
+  font-family: tahoma,verdana,sans-serif;
+}
+
+/* Header part -- contains navigation buttons and day names. */
+
+.calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
+  text-align: center;    /* They are the navigation buttons */
+  padding: 2px;          /* Make the buttons seem like they're pressing */
+}
+
+.calendar .nav {
+  background: #778;
+}
+
+.calendar thead .title { /* This holds the current "month, year" */
+  font-weight: bold;      /* Pressing it will take you to the current date */
+  text-align: center;
+  background: #fff;
+  color: #000;
+  padding: 2px;
+}
+
+.calendar thead .headrow { /* Row <TR> containing navigation buttons */
+  background: #778;
+  color: #fff;
+}
+
+.calendar thead .daynames { /* Row <TR> containing the day names */
+  background: #bdf;
+}
+
+.calendar thead .name { /* Cells <TD> containing the day names */
+  border-bottom: 1px solid #556;
+  padding: 2px;
+  text-align: center;
+  color: #000;
+}
+
+.calendar thead .weekend { /* How a weekend day name shows in header */
+  color: #a66;
+}
+
+.calendar thead .hilite { /* How do the buttons in header appear when hover */
+  background-color: #aaf;
+  color: #000;
+  border: 1px solid #04f;
+  padding: 1px;
+}
+
+.calendar thead .active { /* Active (pressed) buttons in header */
+  background-color: #77c;
+  padding: 2px 0px 0px 2px;
+}
+
+/* The body part -- contains all the days in month. */
+
+.calendar tbody .day { /* Cells <TD> containing month days dates */
+  width: 2em;
+  color: #456;
+  text-align: right;
+  padding: 2px 4px 2px 2px;
+}
+.calendar tbody .day.othermonth {
+  font-size: 80%;
+  color: #bbb;
+}
+.calendar tbody .day.othermonth.oweekend {
+  color: #fbb;
+}
+
+.calendar table .wn {
+  padding: 2px 3px 2px 2px;
+  border-right: 1px solid #000;
+  background: #bdf;
+}
+
+.calendar tbody .rowhilite td {
+  background: #def;
+}
+
+.calendar tbody .rowhilite td.wn {
+  background: #eef;
+}
+
+.calendar tbody td.hilite { /* Hovered cells <TD> */
+  background: #def;
+  padding: 1px 3px 1px 1px;
+  border: 1px solid #bbb;
+}
+
+.calendar tbody td.active { /* Active (pressed) cells <TD> */
+  background: #cde;
+  padding: 2px 2px 0px 2px;
+}
+
+.calendar tbody td.selected { /* Cell showing today date */
+  font-weight: bold;
+  border: 1px solid #000;
+  padding: 1px 3px 1px 1px;
+  background: #fff;
+  color: #000;
+}
+
+.calendar tbody td.weekend { /* Cells showing weekend days */
+  color: #a66;
+}
+
+.calendar tbody td.today { /* Cell showing selected date */
+  font-weight: bold;
+  color: #00f;
+}
+
+.calendar tbody .disabled { color: #999; }
+
+.calendar tbody .emptycell { /* Empty cells (the best is to hide them) */
+  visibility: hidden;
+}
+
+.calendar tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
+  display: none;
+}
+
+/* The footer part -- status bar and "Close" button */
+
+.calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
+  text-align: center;
+  background: #556;
+  color: #fff;
+}
+
+.calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
+  background: #fff;
+  color: #445;
+  border-top: 1px solid #556;
+  padding: 1px;
+}
+
+.calendar tfoot .hilite { /* Hover style for buttons in footer */
+  background: #aaf;
+  border: 1px solid #04f;
+  color: #000;
+  padding: 1px;
+}
+
+.calendar tfoot .active { /* Active (pressed) style for buttons in footer */
+  background: #77c;
+  padding: 2px 0px 0px 2px;
+}
+
+/* Combo boxes (menus that display months/years for direct selection) */
+
+.calendar .combo {
+  position: absolute;
+  display: none;
+  top: 0px;
+  left: 0px;
+  width: 4em;
+  cursor: default;
+  border: 1px solid #655;
+  background: #def;
+  color: #000;
+  font-size: 90%;
+  z-index: 100;
+}
+
+.calendar .combo .label,
+.calendar .combo .label-IEfix {
+  text-align: center;
+  padding: 1px;
+}
+
+.calendar .combo .label-IEfix {
+  width: 4em;
+}
+
+.calendar .combo .hilite {
+  background: #acf;
+}
+
+.calendar .combo .active {
+  border-top: 1px solid #46a;
+  border-bottom: 1px solid #46a;
+  background: #eef;
+  font-weight: bold;
+}
+
+.calendar td.time {
+  border-top: 1px solid #000;
+  padding: 1px 0px;
+  text-align: center;
+  background-color: #f4f0e8;
+}
+
+.calendar td.time .hour,
+.calendar td.time .minute,
+.calendar td.time .ampm {
+  padding: 0px 3px 0px 4px;
+  border: 1px solid #889;
+  font-weight: bold;
+  background-color: #fff;
+}
+
+.calendar td.time .ampm {
+  text-align: center;
+}
+
+.calendar td.time .colon {
+  padding: 0px 2px 0px 3px;
+  font-weight: bold;
+}
+
+.calendar td.time span.hilite {
+  border-color: #000;
+  background-color: #667;
+  color: #fff;
+}
+
+.calendar td.time span.active {
+  border-color: #f00;
+  background-color: #000;
+  color: #0f0;
+}
+
+.RegistryLinkTextUrl
+{
+	padding-left: 10px;
+}
+
+.GuestBookHeader
+{
+	padding-top: 5px;
+	font-weight:bold;
+}
+
+.GuestBookMessageRow
+{
+	font-weight:bold;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.GuestBookMessage
+{
+	padding-bottom: 10px;
+	background-image:url("/vp/images/b09/site-builder/background/customer-sites-hr.png");
+	background-position:bottom;
+	background-repeat:repeat-x;
+}
+.GuestBookSmiley
+{
+	height: 20px;
+	width: 20px;
+}
+
+/* start blogs */
+h1 { font-size: 20pt; }
+h1.blog-title { margin-bottom: 5px; }
+h2 {}
+h2.filter-title { margin-top: 10px; margin-bottom: 0px; }
+h3 { font-size: 15px; }
+h3.post-title { margin-bottom: 2px; }
+div.post-author { margin-bottom: 22px; }
+span.post-author, span.comment-author { font-weight: bold; }
+table.comment-entry { border-collapse: collapse; margin: 0px; padding: 0px; }
+table.comment-entry td { padding-top: 20px; }
+table.comment-entry .textbox-entry { vertical-align: top; width: 45%; }
+table.comment-entry .action { text-align: right; }
+table.comment-entry input, table.comment-entry textarea { border-color: #a5acb2; border-style: solid; border-width: 1px; margin-top: 5px; }
+.comment-count { border-collapse: collapse; margin: 0px; padding: 0px; }
+.comment-count td { background-repeat: no-repeat; height: 41px; margin: 0px; padding: 5px 0px 0px 0px; text-align: right; vertical-align: top; }
+.comment-count .left { background-image: url(/vp/images/b09/site-builder/containers/MessageSmall/MessageSmall_03.png); width: 7px; }
+.comment-count .middle { background-image: url(/vp/images/b09/site-builder/containers/MessageSmall/MessageSmall_05.png); background-repeat: repeat-x; margin-right: -10px; padding-right: -10px; }
+.comment-count .right { background-image: url(/vp/images/b09/site-builder/containers/MessageSmall/MessageSmall_07.png); width: 21px; }
+table.comment-replies {border-collapse:collapse;margin-left:35px;}
+table.comment-replies td {background-repeat:no-repeat;margin:0px;padding:0px;}
+table.comment-replies tr.top td {background-position:bottom;height:42px;}
+table.comment-replies tr.top td.left {background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/top_left.png);width:12px;}
+table.comment-replies tr.top td.middle {background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/top_middle.png);background-repeat:repeat-x;}
+table.comment-replies tr.top td.right {background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/top_right.png);width:12px;}
+table.comment-replies tr.middle td {background-repeat:repeat-y;}
+table.comment-replies tr.middle td.left {background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/middle_left.png);}
+table.comment-replies tr.middle td.middle {position:relative;}
+table.comment-replies tr.middle td.right {background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/middle_right.png);}
+table.comment-replies tr.bottom td {height:12px;}
+table.comment-replies tr.bottom td.left {background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/bottom_left.png);width:12px;}
+table.comment-replies tr.bottom td.middle {background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/bottom_middle.png);background-repeat:repeat-x;}
+table.comment-replies tr.bottom td.right {background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/bottom_right.png);width:12px;}
+table.comment-replies tr.top td.arrow {background-image: url(/vp/images/b09/site-builder/containers/MessageLarge/top_middle.png); BACKGROUND-REPEAT: repeat-x;}
+table.comment-replies tr.top td.arrow img {float:left;}
+table.comment-replies tr.top td.arrow div {width:340px;float:left;background-image:url(/vp/images/b09/site-builder/containers/MessageLarge/top_middle.png);background-repeat:repeat-x;margin:0px;padding:0px;position:relative;top:21px;height:35px;}
+table.comment-replies div.content {margin-bottom:-26px;position:relative;top:-36px;}
+div.post-category-list { clear: both; float:left;}
+div.blog-trackback-link-container { text-align:right;}
+table.category-trackback-table{width:100%;float:left; position:relative;}
+span.category-list-header { font-weight: bold; }
+span.post-link { text-decoration: underline; }
+table.post-list th { display: none; }
+hr.blog { height: 1px; border: dotted 1px #dddddd; }
+/* end blogs */
+
+form.gsearch
+{
+    width: 95%;
+    margin-top: 10px;    
+}
+
+input.ginput
+{
+    BORDER-BOTTOM: #c0c0c0 1px solid; 
+    BORDER-LEFT: #c0c0c0 1px solid; 
+    PADDING-BOTTOM: 0px; 
+    MARGIN: 0px; 
+    PADDING-LEFT: 0px; 
+    PADDING-RIGHT: 0px;     
+    COLOR: #484848; 
+    BORDER-TOP: #c0c0c0 1px solid; 
+    BORDER-RIGHT: #c0c0c0 1px solid; 
+    PADDING-TOP: 0px; 
+    width: 68%; 
+    float:left;
+    height: 20px;
+    margin-right: 2px;
+}
+
+input.fbutton,
+input.gbutton
+{
+    padding:0;
+    width:30%; 
+    margin: 0;
+    background: url(http://www.google.com/images/srpr/nav_logo14.png) 50% bottom;
+    border: medium none;    
+    border-bottom: #999 1px solid;
+    border-left: #ccc 1px solid;
+    border-top: #ccc 1px solid;
+    border-right: #999 1px solid;
+    outline: 0 none;
+    cursor: pointer;
+    height: 22px;
+}
+
+div.gpowered
+{
+    font-size:11px;
+    color:#676767;
+    vertical-align:middle;
+    margin-top: 2px;
+    text-align: left;
+}
+
+div.gpowered img
+{
+    vertical-align:middle
+}

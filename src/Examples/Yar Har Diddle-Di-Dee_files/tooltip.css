@@ -1,0 +1,61 @@
+.w-tooltip {
+  max-width: 170px;
+  box-shadow: 0px 2px 9px rgba(0, 0, 0, 0.5);
+  border: 3px solid white;
+  border-radius: 5px;
+  padding: 8px;
+  padding-left: 40px;
+  background-color: #4c4b4c;
+  background-color: rgba(64, 64, 64, 0.8);
+  background-repeat: no-repeat;
+  background-position: 8px center;
+  font-family: "Helvetica Neue", "HelveticaNeue", Calibri, Helvetica, Arial;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -webkit-transition: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.w-tooltip.active {
+  opacity: .99;
+  filter: alpha(opacity=100);
+  -webkit-transition: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.w-tooltip.w-tooltip-info {
+  background-color: #0090DA;
+  background-color: rgba(36, 141, 196, 0.8);
+  background-image: url('../images/tooltip-info.png');
+}
+.w-tooltip.w-tooltip-warn {
+  background-color: #db8e66;
+  background-color: rgba(202, 117, 54, 0.8);
+  background-image: url('../images/tooltip-warn.png');
+  background-repeat: no-repeat;
+  background-position: 8px center;
+  padding-left: 40px;
+}
+.w-tooltip.w-tooltip-error {
+  background-color: #b61700;
+  background-color: rgba(180, 34, 28, 0.8);
+  background-image: url('../images/tooltip-error.png');
+  background-repeat: no-repeat;
+  background-position: 8px center;
+  padding-left: 40px;
+}
+.w-tooltip.w-tooltip-mini {
+  border: 2px solid #808080;
+  padding: 4px;
+}
+.w-tooltip.w-tooltip-noicon {
+  background-image: none;
+  padding-left: 8px;
+}
