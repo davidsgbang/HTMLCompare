@@ -35,10 +35,12 @@
 				traverseScript2.src = '../traverseDOM.js';
 
 				var frameOne = $("#frameOne");
-				frameOne.attr({src : 'Examples/'+form.fileOne.value});
+				var fileNameOne = form.fileOne.value.split("\\");
+				frameOne.attr({src : 'Examples/'+fileNameOne[fileNameOne.length - 1]});
 
+				var fileNameTwo = form.fileTwo.value.split("\\");
 				var frameTwo = $("#frameTwo");
-				frameTwo.attr({src : 'Examples/'+form.fileTwo.value});
+				frameTwo.attr({src : 'Examples/'+fileNameTwo[fileNameTwo.length-1]});
 				
 
 
@@ -92,7 +94,7 @@
 					var maxVal = 0;
 					for (var hashTwoIndex = 0; hashTwoIndex < Object.keys(frame2).length; hashTwoIndex++) {
 						var compValue = compareDOMElements(frame1[keyToCompare], frameTwoHash[Object.keys(frame2)[hashTwoIndex]]);
-						confidenceArray.push({confidence: compValue, index1: hashOneIndex, index2: hashTwoIndex});
+						confidenceArray.push({confidence: compValue, index1: hashOneIndex, index2: hashTwoIndex, text1: frame1[keyToCompare].jQuery.text(), text2: frameTwoHash[Object.keys(frame2)[hashTwoIndex]].jQuery.text()});
 						maxVal = (compValue > maxVal ? compValue : maxVal);
 					}
 					totalPercent += (maxVal * 100);
@@ -117,7 +119,7 @@
 					combinedConfidence += confidenceArray[index].confidence;
 					array1Processed[confidenceArray[index].index1] = true;
 					array2Processed[confidenceArray[index].index2] = true;
-					console.log(confidenceArray[index]);
+				//	console.log(confidenceArray[index]);
 					if (uniformValueArray(array1Processed) == true) {
 						finishedArrayLength = array2Processed.length;
 						break;
@@ -154,7 +156,7 @@
 				//return contentPercent;
 				
 				if (contentPercent == 0) { 
-					return ((contentPercent * 1) + (((200 - widthPercent - heightPercent) / 2)*4)  + (compareDOMStyles(element1, element2) * .5) + (element1.tagName == element2.tagName ? 50 : 0)) / 6;
+					return ((((200 - widthPercent - heightPercent) / 2)*6)  + (compareDOMStyles(element1, element2) * 1.5) + (element1.tagName == element2.tagName ? 50 : 0)) / 8;
 				} else {
 					return ((contentPercent * 4) + (((200 - widthPercent - heightPercent) / 2)*4)  + (compareDOMStyles(element1, element2) * .5) + (element1.tagName == element2.tagName ? 50 : 0)) / 9;
 				}
